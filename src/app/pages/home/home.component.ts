@@ -12,7 +12,8 @@ export class HomeComponent {
   lista = signal([
     "Descargar angular cli",
     "Crear proyecto",
-    "Crear componentes"
+    "Crear componentes",
+    "Crear soportes"
   ]);
 
   changeHandler(event: Event) {
