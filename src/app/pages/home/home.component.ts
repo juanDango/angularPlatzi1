@@ -14,4 +14,14 @@ export class HomeComponent {
     "Crear proyecto",
     "Crear componentes"
   ]);
+
+  changeHandler(event: Event) {
+    const input = event.target as HTMLInputElement
+    const newTask = input.value;
+    this.lista.update(lista => [...lista, newTask])
+  }
+
+  deleteTask(index: number){
+    this.lista.update((lista) => lista.filter((task, i) => i != index))
+  }
 }
