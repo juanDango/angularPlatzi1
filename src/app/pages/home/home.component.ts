@@ -23,6 +23,10 @@ export class HomeComponent {
     },
   ]);
 
+  /**
+   * Se encarga de manejar los cambios
+   * @param event Evento
+   */
   changeHandler(event: Event) {
     const input = event.target as HTMLInputElement
     const newTask = input.value;
@@ -30,6 +34,28 @@ export class HomeComponent {
     this.addTask(newTask)
   }
 
+  /**
+   * Se encarga de actualizar una tarea
+   * @param index Indice de la tarea a actualizar
+   */
+  updateTast(index: number){
+    this.lista.update(lista => {
+      return lista.map((task, i) => {
+        if (i == index){
+          return {
+            ...task,
+            completed: !task.completed
+          }
+        }
+        return task
+      })
+    })
+  }
+
+  /**
+   * Añade una nueva tarea con el título
+   * @param title Titulo de la tarea
+   */
   addTask(title: string) {
     const newTask: Task = {
       id: Date.now(),
@@ -39,6 +65,10 @@ export class HomeComponent {
     this.lista.update(lista => [...lista, newTask])
   }
 
+  /**
+   * Elimina una tarea del array en el index
+   * @param index indice a eliminar
+   */
   deleteTask(index: number){
     this.lista.update((lista) => lista.filter((task, i) => i != index))
   }
