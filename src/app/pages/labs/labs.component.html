@@ -27,7 +27,7 @@
   <input type="number" [value]="persona().age" (change)="changeAge($event)">
 
   <p>(change)</p>
-  <input type="text" [value]="persona().name" (change)="changeHandler($event)">
+  <input type="text" [value]="persona().name" (change)="changeName($event)">
   <p>(keydown)</p>
   <input type="text" [value]="persona().name" (keydown)="keydownHandler($event)">
 
@@ -61,4 +61,11 @@
   <ng-template #elseBlock>
     Soy Juanda y soy menor a 18
   </ng-template>
+
+  <div [ngSwitch]="persona().name">
+    <p *ngSwitchCase="'Juan Daniel'">Soy Juanda</p>
+    <p *ngSwitchCase="'Nicolas'">Soy Nicolas</p>
+    <p *ngSwitchCase="'Fernando'">Soy Fernando</p>
+    <p *ngSwitchDefault>No soy nadie</p>
+  </div>
 </div>
