@@ -15,7 +15,7 @@ export class HomeComponent {
     {
       id: Date.now(),
       title: "Crear proyecto",
-      completed: false,
+      completed: true,
     },
     {
       id: Date.now(),
