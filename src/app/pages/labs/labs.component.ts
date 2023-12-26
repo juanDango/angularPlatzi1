@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, signal } from '@angular/core';
 
 @Component({
@@ -31,6 +31,16 @@ export class LabsComponent {
   widthCtrl = new FormControl(50, {
     nonNullable: true
   })
+
+  nameCtrl = new FormControl(50, {
+    nonNullable: true,
+    validators: [
+      Validators.required,
+      Validators.minLength(3)
+    ]
+  })
+
+
 
   constructor(){
     this.colorCtrl.valueChanges.subscribe(value => {
