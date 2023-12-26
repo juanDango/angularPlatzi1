@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { Task } from '../../models/tasks.model';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -13,16 +13,31 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 export class HomeComponent {
   lista = signal<Task[]>([
     {
-      id: Date.now(),
+      id: 1,
       title: "Crear proyecto",
       completed: true,
     },
     {
-      id: Date.now(),
+      id: 2,
       title: "Crear componentes",
       completed: false,
     },
   ]);
+
+  id = 3
+  filter = signal<'all' | 'pending'  | 'completed'>('all');
+  taskByFilter = computed(() => {
+    const filter = this.filter()
+    const tasks = this.lista()
+
+    if (filter === 'pending'){
+      return tasks.filter(task => !task.completed)
+    }
+    if (filter === 'completed'){
+      return tasks.filter(task => task.completed)
+    }
+    return tasks
+  })
 
   newTaskCtrl = new FormControl("", {
     nonNullable: true,
@@ -48,10 +63,10 @@ export class HomeComponent {
    * Se encarga de actualizar una tarea
    * @param index Indice de la tarea a actualizar
    */
-  updateTast(index: number){
+  updateTast(id: number){
     this.lista.update(lista => {
       return lista.map((task, i) => {
-        if (i == index){
+        if (id == task.id){
           return {
             ...task,
             completed: !task.completed
@@ -68,10 +83,11 @@ export class HomeComponent {
    */
   addTask(title: string) {
     const newTask: Task = {
-      id: Date.now(),
+      id: this.id,
       title,
       completed: false
     }
+    this.id ++
     this.lista.update(lista => [...lista, newTask])
   }
 
@@ -79,7 +95,45 @@ export class HomeComponent {
    * Elimina una tarea del array en el index
    * @param index indice a eliminar
    */
-  deleteTask(index: number){
-    this.lista.update((lista) => lista.filter((task, i) => i != index))
+  deleteTask(id: number){
+    this.lista.update((lista) => lista.filter((task, i) => id != task.id))
+    this.id --
+  }
+
+  updateTaskEditingMode(id: number){
+    this.lista.update(lista => {
+      return lista.map((task, i) => {
+        if (task.id == id && !task.completed){
+          return {
+            ...task,
+            editing: true
+          }
+        }
+        return {
+          ...task,
+          editing: false
+        }
+      })
+    })
+  }
+
+  updateTaskText(id: number, event: Event){
+    const input = event.target as HTMLInputElement
+    this.lista.update(lista => {
+      return lista.map((task, i) => {
+        if (task.id == id){
+          return {
+            ...task,
+            title: input.value,
+            editing: false
+          }
+        }
+        return task
+      })
+    })
+  }
+
+  changeFilter(filter: 'all' | 'pending' | 'completed'){
+    this.filter.set(filter)
   }
 }
