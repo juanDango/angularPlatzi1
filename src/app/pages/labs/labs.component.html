@@ -2,123 +2,129 @@
   <h1>Hola, esta es mi app angular 17</h1>
   <h2>{{welcome}}</h2>
   <ul>
-    <li *ngFor = "let task of lista()">
-      {{task}}
-    </li>
+    @for (task of lista(); track task) {
+      <li>
+        {{task}}
+      </li>
+    }
   </ul>
-
   <hr />
   <h2>{{ "Hola".repeat(10) }}</h2>
   <p>La suma de 3 + 3 es {{3 + 3}}</p>
   <p>Hola, soy {{ name() }} y tengo {{age}} años</p>
-
   <hr />
-
   <img [src]="persona().avatar" alt ="">
   <input type="number" [value]="persona().age">
   <button [disabled]="disabled">Clickeame</button>
-
   <p>Persona: {{ persona.name }}</p>
-
   <hr />
   <button (click)="clickHandler()">Click me</button>
   <button (dblclick)="clickHandler()">Double Click Me</button>
   <p>(change)</p>
   <input type="number" [value]="persona().age" (change)="changeAge($event)">
-
   <p>(change)</p>
   <input type="text" [value]="persona().name" (change)="changeName($event)">
   <p>(keydown)</p>
   <input type="text" [value]="persona().name" (keydown)="keydownHandler($event)">
-
   <p>(keydown)</p>
   <input type="text" [value]="persona().name" (keydown.shift.t)="clickHandler()">
-
   <hr/>
   <p>Signals:</p>
   <input type="text" [value]="name()" (change)="changeHandler($event)">
   <p>name: {{name()}}</p>
-
   <p>total elementos: {{ lista().length }}</p>
   <ul>
-    <li *ngFor = "let task of lista(); index as i">
-      {{i}} {{ task }}
-    </li>
+    @for (task of lista(); track task; let i = $index) {
+      <li>
+        {{i}} {{ task }}
+      </li>
+    }
   </ul>
-
-  <div *ngIf="1!==1">
-    my content
-  </div>
+  @if (1!==1) {
+    <div>
+      my content
+    </div>
+  }
   @if(name() == 'Juan Daniel'){
     <div>Soy Juan Daniel</div>
   }
-
-  <div *ngIf="name() == 'Juan Daniel'">
-    Juan Daniel
-  </div>
-
-  <div *ngIf="persona().name == 'Juan Daniel' && persona().age >= 18; else elseBlock">
-    Soy juanda y soy adulto
-  </div>
-
-  <ng-template #elseBlock>
+  @if (name() == 'Juan Daniel') {
+    <div>
+      Juan Daniel
+    </div>
+  }
+  @if (persona().name == 'Juan Daniel' && persona().age >= 18) {
+    <div>
+      Soy juanda y soy adulto
+    </div>
+  } @else {
     Soy Juanda y soy menor a 18
-  </ng-template>
-
+  }
   @if(persona().name == 'Juan Daniel' && persona().age >= 18)
-  {
+    {
     <div>Soy juanda y soy adulto</div>
   } @else {
     <div>Soy juanda y soy niño</div>
   }
-
-  <div [ngSwitch]="persona().name">
-    <p *ngSwitchCase="'Juan Daniel'">Soy Juanda</p>
-    <p *ngSwitchCase="'Nicolas'">Soy Nicolas</p>
-    <p *ngSwitchCase="'Fernando'">Soy Fernando</p>
-    <p *ngSwitchDefault>No soy nadie</p>
+  <div>
+    @switch (persona().name) {
+      @case ('Juan Daniel') {
+        <p>Soy Juanda</p>
+      }
+      @case ('Nicolas') {
+        <p>Soy Nicolas</p>
+      }
+      @case ('Fernando') {
+        <p>Soy Fernando</p>
+      }
+      @default {
+        <p>No soy nadie</p>
+      }
+    }
   </div>
-
   <hr />
   <input type="color" [formControl]="colorCtrl">
   <p>color: {{colorCtrl.value}}</p>
   <svg>
     <g> <rect x = "0" y = "0" height="100" width="100" [attr.fill] = "colorCtrl.value"></rect> </g>
   </svg>
-
   <hr />
   <input type="number" [formControl]="widthCtrl">
-
   <span class = box [style.width.px]="widthCtrl.value"></span>
-
   <hr />
   <p>
     <input type = "text" [formControl]="nameCtrl"> <br />
-
     <span class = "message-error" [class.show]="nameCtrl.invalid && nameCtrl.touched">Nombre invalido</span>
   </p>
   <p>
     <input type="text">
   </p>
-
   <hr />
   <ul>
     @for(task of lista(); track task; let i = $index) {
       <li>
         {{i}} {{ task }}
       </li>
-    }  @empty {
+      }  @empty {
       <li><strong>La lista está vacia</strong></li>
     }
   </ul>
-
-  <div [ngSwitch]="persona().name">
-    <p *ngSwitchCase="'Juan Daniel'">Soy Juanda</p>
-    <p *ngSwitchCase="'Nicolas'">Soy Nicolas</p>
-    <p *ngSwitchCase="'Fernando'">Soy Fernando</p>
-    <p *ngSwitchDefault>No soy nadie</p>
+  <div>
+    @switch (persona().name) {
+      @case ('Juan Daniel') {
+        <p>Soy Juanda</p>
+      }
+      @case ('Nicolas') {
+        <p>Soy Nicolas</p>
+      }
+      @case ('Fernando') {
+        <p>Soy Fernando</p>
+      }
+      @default {
+        <p>No soy nadie</p>
+      }
+    }
   </div>
-
   <hr />
   @switch (persona().name) {
     @case ('Juan Daniel') {<p>Soy Juanda</p>}
