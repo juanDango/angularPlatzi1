@@ -49,6 +49,9 @@
   <div *ngIf="1!==1">
     my content
   </div>
+  @if(name() == 'Juan Daniel'){
+    <div>Soy Juan Daniel</div>
+  }
 
   <div *ngIf="name() == 'Juan Daniel'">
     Juan Daniel
@@ -61,6 +64,13 @@
   <ng-template #elseBlock>
     Soy Juanda y soy menor a 18
   </ng-template>
+
+  @if(persona().name == 'Juan Daniel' && persona().age >= 18)
+  {
+    <div>Soy juanda y soy adulto</div>
+  } @else {
+    <div>Soy juanda y soy niño</div>
+  }
 
   <div [ngSwitch]="persona().name">
     <p *ngSwitchCase="'Juan Daniel'">Soy Juanda</p>
@@ -90,4 +100,15 @@
   <p>
     <input type="text">
   </p>
+
+  <hr />
+  <ul>
+    @for(task of lista(); track task; let i = $index) {
+      <li>
+        {{i}} {{ task }}
+      </li>
+    }  @empty {
+      <li><strong>La lista está vacia</strong></li>
+    }
+  </ul>
 </div>
