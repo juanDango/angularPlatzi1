@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, Injector, computed, effect, inject, signal } from '@angular/core';
 import { Task } from '../../models/tasks.model';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -11,20 +11,31 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  lista = signal<Task[]>([
-    {
-      id: 1,
-      title: "Crear proyecto",
-      completed: true,
-    },
-    {
-      id: 2,
-      title: "Crear componentes",
-      completed: false,
-    },
-  ]);
+  injector = inject(Injector)
+  constructor() {
 
-  id = 3
+  }
+
+  id = 0
+  ngOnInit() {
+    const storage = localStorage.getItem('tasks')
+    if (storage){
+      const tasks = JSON.parse(storage) as Array<Task>
+      this.lista.set(tasks)
+      this.id = Math.max(...tasks.map(task => task.id))+1
+    }
+    this.trackTasks()
+  }
+
+  trackTasks(){
+    effect(() => {
+      const tasks = this.lista()
+      localStorage.setItem('tasks', JSON.stringify(tasks))
+    }, {injector: this.injector})
+  }
+
+  lista = signal<Task[]>([]);
+
   filter = signal<'all' | 'pending'  | 'completed'>('all');
   taskByFilter = computed(() => {
     const filter = this.filter()
@@ -97,7 +108,6 @@ export class HomeComponent {
    */
   deleteTask(id: number){
     this.lista.update((lista) => lista.filter((task, i) => id != task.id))
-    this.id --
   }
 
   updateTaskEditingMode(id: number){
