@@ -111,4 +111,19 @@
       <li><strong>La lista está vacia</strong></li>
     }
   </ul>
+
+  <div [ngSwitch]="persona().name">
+    <p *ngSwitchCase="'Juan Daniel'">Soy Juanda</p>
+    <p *ngSwitchCase="'Nicolas'">Soy Nicolas</p>
+    <p *ngSwitchCase="'Fernando'">Soy Fernando</p>
+    <p *ngSwitchDefault>No soy nadie</p>
+  </div>
+
+  <hr />
+  @switch (persona().name) {
+    @case ('Juan Daniel') {<p>Soy Juanda</p>}
+    @case ('Nicolas') {<p>Soy Nicolas</p>}
+    @case ('Fernando') {<p>Soy Fer</p>}
+    @default {<p>No soy nadie</p>}
+  }
 </div>
